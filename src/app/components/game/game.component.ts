@@ -15,6 +15,7 @@ export class GameComponent implements OnInit {
   board=[];
   isTie:boolean;
   isWin:boolean;
+  currentPlayer:number = 1;
   constructor(private modalService: BsModalService, private _router: Router, private _gameLogicService: GameLogicService) { }
   
   ngOnInit() {
@@ -30,7 +31,7 @@ export class GameComponent implements OnInit {
   gameMove(r:number,c:number){
     console.log("row and col",r,c);
     this.isTie = this._gameLogicService.isBoardFull(this.board);
-    this.isWin = this._gameLogicService.winCheck(this.board,r,c);
+    this.isWin = this._gameLogicService.winCheck(this.board,r,c,this.currentPlayer);
   }
 
   endGameModal(template: TemplateRef<any>) {
