@@ -1,14 +1,14 @@
 <div class="container">
     <h3 class="text-center">
-        <span class="badge badge-pill badge-dark">Player 1</span>
-        <span class="badge badge-pill badge-dark">Player 2</span>
+            <span class="badge badge-pill badge-dark" >Player 1</span>
+        <span class="badge badge-pill badge-dark text-muted bg-muted" >Player 2</span>
     </h3>
 </div>
 <div class="container">
     <table class="table table-bordered rounded ">
         <tbody>
                 <tr *ngFor="let row of board; let r = index">
-                        <td *ngFor="let col of row; let c = index" (click)="gameMove(r, c)">
+                        <td *ngFor="let col of row; let c = index" (click)="gameMove(c)">
                             {{board[r][c]}}{{r}}{{c}}
                         </td>
                 </tr>
@@ -16,12 +16,10 @@
     </table>
 </div>
 
-<!-- ----------------modal-------------------------- -->
-<button type="button" class="btn btn-primary" (click)="endGameModal(template)">Create template modal</button>
- 
+<!-- ----------------modal-------------------------- --> 
 <ng-template #template>
   <div class="modal-header">
-    <h4 class="modal-title pull-left">The Player {{winer}} is the Winer</h4>
+    <h4 class="modal-title pull-left">{{message}}</h4>
     <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
       <span aria-hidden="true">&times;</span>
     </button>
