@@ -1,4 +1,5 @@
-# FourInRow
+# Four In The Row
+Classic game build as SPA using Angular 8 and Bootstrap for Design.
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.3.
 
