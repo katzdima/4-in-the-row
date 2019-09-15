@@ -4,14 +4,14 @@
       <h3 *ngIf="currentPlayer==2"class="display-2 text-center mb-3">Ready Player Two</h3>
   </div>
   <div class="container">
-      <table class="rounded bg-dark mx-auto">
+      <table class="rounded bg-dark mx-auto" #table>
           <tbody>
-                  <tr *ngFor="let row of board; let r = index">
-                          <td *ngFor="let col of row; let c = index" (click)="gameMove(c)" (mouseover)="markColumn(c)"class="td ">
-                            <div class="cell bg-light rounded-circle mx-auto">
-                            </div>
-                          </td>
-                  </tr>
+            <tr *ngFor="let row of board; let r = index">
+              <td *ngFor="let col of row; let c = index" (click)="gameMove(c)" (mouseenter)="markColumn(c)" (mouseleave)="unMarkColumn(c)" class="td " [ngClass]="'row'+r+'col'+c">
+                <div class="cell bg-light rounded-circle mx-auto">
+                </div>
+              </td>
+            </tr>
           </tbody>
       </table>
   </div>

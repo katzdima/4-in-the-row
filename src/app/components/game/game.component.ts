@@ -1,4 +1,4 @@
-import { Component, OnInit ,TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnInit ,TemplateRef, ViewChild, ElementRef } from '@angular/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { Router } from '@angular/router';
 import { GameLogicService } from 'src/app/services/game-logic.service';
@@ -12,6 +12,7 @@ import { GameLogicService } from 'src/app/services/game-logic.service';
 export class GameComponent implements OnInit {
   modalRef: BsModalRef;
   @ViewChild('template', { static: false }) modalTemplate : TemplateRef<any>;
+  @ViewChild('table', { static: false }) table: ElementRef;
 
   row:number;
   board:number[][];
@@ -75,7 +76,17 @@ export class GameComponent implements OnInit {
   }
 
   markColumn(col:number){
-    console.log("col",col);
+    for(let i=0; i<this.board.length; i++){
+      let list = this.table.nativeElement.querySelectorAll(`.row${i}col${col}`);
+      list[0].classList.add("bg-secondary");
+    }
+  }
+
+  unMarkColumn(col:number){
+    for(let i=0; i<this.board.length; i++){
+      let list = this.table.nativeElement.querySelectorAll(`.row${i}col${col}`);
+      list[0].classList.remove("bg-secondary");
+    }
   }
 
 
