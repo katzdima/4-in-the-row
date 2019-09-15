@@ -1,0 +1,13 @@
+#content{
+    height: calc(92vh);
+}
+table{
+    width:490px;
+    height: 390px;
+}
+
+.cell{
+    height: 59px;
+    width: 59px;
+    border: 2px solid black;
+}

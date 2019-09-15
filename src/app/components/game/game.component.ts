@@ -13,7 +13,7 @@ export class GameComponent implements OnInit {
   modalRef: BsModalRef;
   @ViewChild('template', { static: false }) modalTemplate : TemplateRef<any>;
 
-  winer:number;
+  row:number;
   board:number[][];
   message:string;
   isWin:boolean;
@@ -35,16 +35,14 @@ export class GameComponent implements OnInit {
   }
 
   gameMove(c:number){
-    //calculating next free cell in selected column
-    let row:number = this.board.length-1; 
-    for(let i=0; i<this.board.length; i++){
-      if(this.board[i][c]!==0){
-        row = i-1;
-        break;
-      }
-    }
-    console.log("row & col",row,c);
-    this.board[row][c]=this.currentPlayer;
+    //calculating next available cell in selected column
+    this.row = this._gameLogicService.nextAvailableCell(c,this.board);
+    if(this.row == -1){
+      this.nextMove();
+      return;
+    };
+    console.log("row & col",this.row,c);
+    this.board[this.row][c]=this.currentPlayer;
 
     //is game tie 
     if(this._gameLogicService.isBoardFull(this.board)){
@@ -52,22 +50,32 @@ export class GameComponent implements OnInit {
     };
 
     //is player won the game
-    if(!this._gameLogicService.winCheck(this.board,row,c,this.currentPlayer)){
+    if(this._gameLogicService.winCheck(this.board,this.row,c,this.currentPlayer)){
       this.endGameModal(`The Player ${this.currentPlayer} is the Winer`);
     }
 
+    //next player turn
+    this.nextMove();
+    
   }
 
+  nextMove(){
+    this.currentPlayer = (this.currentPlayer == 1) ? 2 : 1 ;
+  }
 
-    endGameModal(message:string){
-      this.message=message;
-      this.modalRef = this._modalService.show(this.modalTemplate);
-      setTimeout(()=>{
-        this.modalRef.hide();
-        setTimeout(() => {
-          this._router.navigate(['welcome']);
-        }, 100);
-      },3000);
+  endGameModal(message:string){
+    this.message=message;
+    this.modalRef = this._modalService.show(this.modalTemplate);
+    setTimeout(()=>{
+      this.modalRef.hide();
+      setTimeout(() => {
+        this._router.navigate(['welcome']);
+      }, 100);
+    },3000);
+  }
+
+  markColumn(col:number){
+    console.log("col",col);
   }
 
 

@@ -7,6 +7,17 @@ export class GameLogicService {
 
   constructor() { }
 
+  nextAvailableCell(col:number,board:number[][]){
+    let row:number= board.length-1; 
+    for(let i=0; i<board.length; i++){
+      if(board[i][col]!==0){
+        row = i-1;
+        break;
+      }
+    }
+    return row;
+  }
+
   isBoardFull(board:number[][]){
     for ( let i = 0; i < board.length; i++) {
       for (let j = 0; j < board[0].length; j++) {
@@ -43,13 +54,13 @@ export class GameLogicService {
         for(x--,y++ ; x>=0 && y<board[0].length; x--,y++){
           if(board[x][y] === currentPlayer){
             count++;
+            if(count==4){
+              return true;
+            }
           }
           else{
             count = 0;
           }
-        }
-        if(count==4){
-          return true;
         }
       }
 
@@ -75,13 +86,13 @@ export class GameLogicService {
         for(x++,y++; x<board.length && y<board[0].length; x++,y++){
           if(board[x][y] === currentPlayer){
             count++;
+            if(count==4){
+              return true;
+            }
           }
           else{
             count = 0;
           }
-        }
-        if(count==4){
-          return true;
         }  
       }
 
@@ -93,13 +104,13 @@ export class GameLogicService {
     for(let i=0; i<board.length; i++){
       if(board[i][c] === currentPlayer){
         count++;
+        if(count==4){
+          return true;
+        }
       }
       else{
         count = 0;
       }
-    }
-    if(count==4){
-      return true;
     }
 
     //horizontal check
@@ -110,15 +121,15 @@ export class GameLogicService {
     for(let i=0; i<board[0].length; i++){
       if(board[r][i] === currentPlayer){
         count++;
+        if(count==4){
+          return true;
+        }
       }
       else{
         count = 0;
       }
     }
-    if(count==4){
-      return true;
-    }
-
+    
     return false;
   }
 }
