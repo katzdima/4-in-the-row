@@ -129,7 +129,6 @@ export class GameLogicService {
         count = 0;
       }
     }
-    
     return false;
   }
 }

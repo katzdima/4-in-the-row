@@ -17,7 +17,6 @@ export class GameComponent implements OnInit {
   row:number;
   board:number[][];
   message:string;
-  //isWin:boolean;
   currentPlayer:number = 1;
   elem:ElementRef;
 
@@ -39,23 +38,12 @@ export class GameComponent implements OnInit {
 
     //calculating next available cell in selected column
     this.row = this._gameLogicService.nextAvailableCell(c,this.board);
-    if(this.row == -1){
-      this.nextMove();
+    if(this.row === -1){
       return;
     };
-    console.log("row & col",this.row,c);
+
     //new cell population
-    
-    let e = this.table.nativeElement.getElementsByClassName(`row${this.row}col${c}`)[0];
-
-    if(this.currentPlayer==1){
-      this.board[this.row][c]=1;
-    }
-    if(this.currentPlayer==2){
-      this.board[this.row][c]=2;
-    }
-    e = undefined;
-
+    this.board[this.row][c] = (this.currentPlayer === 1) ? 1 : 2 ;
 
     //is game tie 
     if(this._gameLogicService.isBoardFull(this.board)){
@@ -68,12 +56,7 @@ export class GameComponent implements OnInit {
     }
 
     //next player turn
-    this.nextMove();
-
-  }
-
-  nextMove(){
-    this.currentPlayer = (this.currentPlayer == 1) ? 2 : 1 ;
+    this.currentPlayer = (this.currentPlayer === 1) ? 2 : 1 ;
   }
 
   endGameModal(message:string){
@@ -100,6 +83,4 @@ export class GameComponent implements OnInit {
       elem[0].classList.remove("bg-secondary");
     }
   }
-
-
 }
