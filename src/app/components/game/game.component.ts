@@ -17,10 +17,9 @@ export class GameComponent implements OnInit {
   row:number;
   board:number[][];
   message:string;
-  isWin:boolean;
+  //isWin:boolean;
   currentPlayer:number = 1;
-  isFirstPlayer:boolean = true;
-  isSecondPlayer:boolean = false;
+  elem:ElementRef;
 
   constructor(private _modalService: BsModalService, private _router: Router, private _gameLogicService: GameLogicService) { }
   
@@ -36,6 +35,8 @@ export class GameComponent implements OnInit {
   }
 
   gameMove(c:number){
+    this.unMarkColumn(c);
+
     //calculating next available cell in selected column
     this.row = this._gameLogicService.nextAvailableCell(c,this.board);
     if(this.row == -1){
@@ -43,7 +44,18 @@ export class GameComponent implements OnInit {
       return;
     };
     console.log("row & col",this.row,c);
-    this.board[this.row][c]=this.currentPlayer;
+    //new cell population
+    
+    let e = this.table.nativeElement.getElementsByClassName(`row${this.row}col${c}`)[0];
+
+    if(this.currentPlayer==1){
+      this.board[this.row][c]=1;
+    }
+    if(this.currentPlayer==2){
+      this.board[this.row][c]=2;
+    }
+    e = undefined;
+
 
     //is game tie 
     if(this._gameLogicService.isBoardFull(this.board)){
@@ -57,7 +69,7 @@ export class GameComponent implements OnInit {
 
     //next player turn
     this.nextMove();
-    
+
   }
 
   nextMove(){
@@ -77,15 +89,15 @@ export class GameComponent implements OnInit {
 
   markColumn(col:number){
     for(let i=0; i<this.board.length; i++){
-      let list = this.table.nativeElement.querySelectorAll(`.row${i}col${col}`);
-      list[0].classList.add("bg-secondary");
+      this.elem = this.table.nativeElement.querySelectorAll(`.row${i}col${col}`);
+      this.elem[0].classList.add("bg-secondary");
     }
   }
 
   unMarkColumn(col:number){
     for(let i=0; i<this.board.length; i++){
-      let list = this.table.nativeElement.querySelectorAll(`.row${i}col${col}`);
-      list[0].classList.remove("bg-secondary");
+      let elem = this.table.nativeElement.querySelectorAll(`.row${i}col${col}`);
+      elem[0].classList.remove("bg-secondary");
     }
   }
 
